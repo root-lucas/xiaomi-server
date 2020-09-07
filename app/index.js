@@ -4,9 +4,11 @@ const koaStatic = require('koa-static')
 const KoaBody = require('koa-body')
 const onerror = require('koa-onerror')
 const path = require('path')
+const session = require('koa-generic-session')
 
 const user = require('./routes/user')
 const { koaBodyConfig } = require('./conf/config')
+const { SESSION_CONF, SESSION_SECRET_KEY } = require('./conf/session')
 
 onerror(app)
 
@@ -15,6 +17,10 @@ app.use(koaStatic(path.join(__dirname, '../')))
 
 // 处理请求体数据
 app.use(KoaBody(koaBodyConfig))
+
+// session 配置, 需开启本地 redis 服务器
+app.keys = [SESSION_SECRET_KEY]
+app.use(session(SESSION_CONF))
 
 app.use(user.routes(), user.allowedMethods())
 
