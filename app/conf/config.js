@@ -7,6 +7,16 @@ const koaBodyConfig = {
     },
 }
 
+// 数据库连接设置
+const DBConfig = {
+    connectionLimit: 10,
+    host: 'localhost',
+    user: 'root', // 登陆账号
+    password: 'admin', // 登陆密码
+    database: 'storeDB',
+}
+
 module.exports = {
     koaBodyConfig,
+    DBConfig,
 }

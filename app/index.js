@@ -6,7 +6,7 @@ const onerror = require('koa-onerror')
 const path = require('path')
 const session = require('koa-generic-session')
 
-const user = require('./routes/user')
+const routing = require('./routes/index')
 const { koaBodyConfig } = require('./conf/config')
 const { SESSION_CONF, SESSION_SECRET_KEY } = require('./conf/session')
 
@@ -22,6 +22,7 @@ app.use(KoaBody(koaBodyConfig))
 app.keys = [SESSION_SECRET_KEY]
 app.use(session(SESSION_CONF))
 
-app.use(user.routes(), user.allowedMethods())
+// 处理路由
+routing(app)
 
 app.listen(3000, () => console.log('已经打开3000端口'))
