@@ -1,4 +1,4 @@
-const { userRegister, userLogin, hasUserName } = require('../models/user')
+const { M_UserRegister, M_UserLogin, M_HasUserName } = require('../models/user')
 const { checkUserInfo, checkUserName } = require('../middlewares/checkUserInfo')
 
 class UsersCtl {
@@ -14,7 +14,7 @@ class UsersCtl {
         // 连接数据库根据用户名查询用户信息
         // 先判断该用户是否存在
 
-        let user = await hasUserName(userName)
+        let user = await M_HasUserName(userName)
         if (user.length !== 0) {
             ctx.body = {
                 code: '004',
@@ -25,7 +25,7 @@ class UsersCtl {
 
         try {
             // 连接数据库插入用户信息
-            let registerResult = await userRegister(userName, password)
+            let registerResult = await M_UserRegister(userName, password)
             // 操作所影响的记录行数为1,则代表注册成功
             if (registerResult.affectedRows === 1) {
                 ctx.body = {
@@ -53,7 +53,7 @@ class UsersCtl {
             return
         }
         // 连接数据库根据用户名和密码查询用户信息
-        let user = await userLogin(userName, password)
+        let user = await M_UserLogin(userName, password)
         // 结果集长度为0则代表没有该用户
         if (user.length === 0) {
             ctx.body = {
@@ -100,7 +100,7 @@ class UsersCtl {
             return
         }
         // 连接数据库根据用户名查询用户信息
-        let user = await hasUserName(userName)
+        let user = await M_HasUserName(userName)
         // 结果集长度为0则代表不存在该用户,可以注册
         if (user.length === 0) {
             ctx.body = {

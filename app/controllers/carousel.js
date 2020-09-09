@@ -1,9 +1,9 @@
-const { MCarousel } = require('../models/carousel')
+const { M_Carousel } = require('../models/carousel')
 
 class CarouselCtl {
     // 获取轮播图数据
-    async Carousel(ctx) {
-        let carousel = await MCarousel()
+    async carousel(ctx) {
+        let carousel = await M_Carousel()
         ctx.body = {
             code: '001',
             carousel,

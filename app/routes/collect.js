@@ -1,8 +1,13 @@
 const router = require('koa-router')()
-const { AddCollect, GetCollect, DeleteCollect } = require('../controllers/collect')
+const { addCollect, getCollect, deleteCollect } = require('../controllers/collect')
 
-router.post('/user/collect/addCollect', AddCollect)
-router.post('/user/collect/getCollect', GetCollect)
-router.post('/user/collect/deleteCollect', DeleteCollect)
+// 商品添加收藏
+router.post('/user/collect/addCollect', addCollect)
+
+// 获取收藏列表
+router.post('/user/collect/getCollect', getCollect)
+
+// 删除特定收藏
+router.post('/user/collect/deleteCollect', deleteCollect)
 
 module.exports = router

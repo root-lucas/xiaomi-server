@@ -2,7 +2,7 @@ const db = require('./db.js')
 
 class CarouselMtl {
     // 连接数据库获取轮播图数据
-    async MCarousel() {
+    async M_Carousel() {
         const sql = 'select * from carousel'
         return await db.query(sql, [])
     }

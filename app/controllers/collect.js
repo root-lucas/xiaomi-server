@@ -1,10 +1,10 @@
-const { MAddCollect, MFindCollect, MGetCollect, MDeleteCollect } = require('../models/collect')
+const { M_AddCollect, M_FindCollect, M_GetCollect, M_DeleteCollect } = require('../models/collect')
 const checkLogin = require('../middlewares/checkLogin')
-const { MGetProductById } = require('../models/product')
+const { M_GetProductById } = require('../models/product')
 
 class CollectCtl {
     // 添加收藏
-    async AddCollect(ctx) {
+    async addCollect(ctx) {
         let { user_id, product_id } = ctx.request.body
 
         // 校验用户是否登录
@@ -13,7 +13,7 @@ class CollectCtl {
         }
 
         // 判断该用户的收藏列表是否存在该商品
-        let tempCollect = await MFindCollect(user_id, product_id)
+        let tempCollect = await M_FindCollect(user_id, product_id)
 
         if (tempCollect.length > 0) {
             ctx.body = {
@@ -27,7 +27,7 @@ class CollectCtl {
         const timeTemp = new Date().getTime()
         try {
             // 把收藏商品信息插入数据库
-            const result = await MAddCollect(user_id, product_id, timeTemp)
+            const result = await M_AddCollect(user_id, product_id, timeTemp)
             // 插入成功
             if (result.affectedRows === 1) {
                 ctx.body = {
@@ -47,14 +47,14 @@ class CollectCtl {
     }
 
     // 获取用户的所有收藏商品信息
-    async GetCollect(ctx) {
+    async getCollect(ctx) {
         let { user_id } = ctx.request.body
         // 校验用户是否登录
         if (!checkLogin(ctx, user_id)) {
             return
         }
         // 获取所有收藏信息
-        const collect = await MGetCollect(user_id)
+        const collect = await M_GetCollect(user_id)
 
         // 该用户没有收藏的商品,直接返回信息
         if (collect.length == 0) {
@@ -70,7 +70,7 @@ class CollectCtl {
         for (let i = 0; i < collect.length; i++) {
             const temp = collect[i]
             // 获取每个商品详细信息
-            const product = await MGetProductById(temp.product_id)
+            const product = await M_GetProductById(temp.product_id)
             collectList.push(product[0])
         }
 
@@ -81,7 +81,7 @@ class CollectCtl {
     }
 
     // 删除用户的收藏商品信息
-    async DeleteCollect(ctx) {
+    async deleteCollect(ctx) {
         let { user_id, product_id } = ctx.request.body
         // 校验用户是否登录
         if (!checkLogin(ctx, user_id)) {
@@ -89,12 +89,12 @@ class CollectCtl {
         }
 
         // 判断该用户的收藏列表是否存在该商品
-        let tempCollect = await MFindCollect(user_id, product_id)
+        let tempCollect = await M_FindCollect(user_id, product_id)
 
         if (tempCollect.length > 0) {
             // 如果存在则删除
             try {
-                const result = await MDeleteCollect(user_id, product_id)
+                const result = await M_DeleteCollect(user_id, product_id)
                 // 判断是否删除成功
                 if (result.affectedRows === 1) {
                     ctx.body = {

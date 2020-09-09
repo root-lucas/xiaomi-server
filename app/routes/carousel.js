@@ -1,6 +1,7 @@
 const router = require('koa-router')()
-const { Carousel } = require('../controllers/carousel')
+const { carousel } = require('../controllers/carousel')
 
-router.post('/resources/carousel', Carousel)
+// 主页轮播图
+router.post('/resources/carousel', carousel)
 
 module.exports = router
