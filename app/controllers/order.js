@@ -1,4 +1,4 @@
-const { M_GetOrder, M_GetOrderGroup, M_AddOrder } = require('../models/order')
+const { M_GetOrder, M_GetOrderGroup, M_AddOrder, M_DeleteOrder, M_FindOrder } = require('../models/order')
 const { M_GetProductById } = require('../models/product')
 const { M_DeleteShoppingCart } = require('../models/shoppingCart')
 const checkLogin = require('../middlewares/checkLogin')
@@ -116,6 +116,40 @@ class OrderCtl {
             ctx.body = {
                 code: '500',
                 msg: '服务器未知错误',
+            }
+        }
+    }
+
+    // 删除订单
+    async deleteOrder(ctx) {
+        let { user_id, order_id } = ctx.request.body
+        // 校验用户是否登录
+        if (!checkLogin(ctx, user_id)) {
+            return
+        }
+        // 判断该用户的订单列表是否存在该订单
+        let tempOrder = await M_FindOrder(user_id, order_id)
+
+        if (tempOrder.length > 0) {
+            // 如果存在则删除
+            try {
+                const result = await M_DeleteOrder(user_id, order_id)
+                // 判断是否删除成功
+                if (result.affectedRows === 1) {
+                    ctx.body = {
+                        code: '001',
+                        msg: '删除订单成功',
+                    }
+                    return
+                }
+            } catch (error) {
+                reject(error)
+            }
+        } else {
+            // 不存在则返回信息
+            ctx.body = {
+                code: '002',
+                msg: '该订单不在订单列表',
             }
         }
     }
