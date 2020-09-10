@@ -5,7 +5,7 @@ const {
     M_GetProductById,
     M_GetDetailsPicture,
     M_GetProductByCategory,
-    MGetProductBySearch,
+    M_GetProductBySearch,
 } = require('../models/product')
 
 class ProductCtl {
