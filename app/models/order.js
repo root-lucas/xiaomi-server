@@ -3,8 +3,7 @@ const db = require('./db.js')
 class OrderMtl {
     // 连接数据库获取所有的订单id
     async M_GetOrderGroup(user_id) {
-        // let sql = 'select order_id from orders where user_id = ? group by order_id desc'
-        let sql = 'select order_id from orders where user_id = ? order by order_id desc'
+        let sql = 'select order_id from orders where user_id = ? group by order_id'
         return await db.query(sql, user_id)
     }
 
@@ -29,7 +28,7 @@ class OrderMtl {
         const sql = 'select * from orders where user_id = ? and order_id = ?'
         return await db.query(sql, [user_id, order_id])
     }
-    
+
     // 连接数据库删除订单信息
     async M_DeleteOrder(user_id, order_id) {
         const sql = 'delete from orders where user_id =? and order_id =?'

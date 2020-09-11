@@ -11,11 +11,9 @@ class OrderCtl {
         if (!checkLogin(ctx, user_id)) {
             return
         }
-        console.log('=====1================', user_id)
 
         // 获取所有的订单id
         const ordersGroup = await M_GetOrderGroup(user_id)
-        console.log('=====2================', ordersGroup)
 
         // 该用户没有订单,直接返回信息
         if (ordersGroup.length == 0) {
@@ -25,7 +23,6 @@ class OrderCtl {
             }
             return
         }
-        console.log('=====3================', user_id)
 
         // 获取所有的订单详细信息
         const orders = await M_GetOrder(user_id)
@@ -50,7 +47,6 @@ class OrderCtl {
             }
             ordersList.push(tempOrder)
         }
-        console.log('=====4================', user_id)
 
         ctx.body = {
             code: '001',
@@ -135,7 +131,7 @@ class OrderCtl {
             try {
                 const result = await M_DeleteOrder(user_id, order_id)
                 // 判断是否删除成功
-                if (result.affectedRows === 1) {
+                if (result.affectedRows >= 1) {
                     ctx.body = {
                         code: '001',
                         msg: '删除订单成功',
@@ -143,7 +139,12 @@ class OrderCtl {
                     return
                 }
             } catch (error) {
-                reject(error)
+                console.log(error)
+                // 不存在则返回信息
+                ctx.body = {
+                    code: '500',
+                    msg: '服务器未知错误',
+                }
             }
         } else {
             // 不存在则返回信息
