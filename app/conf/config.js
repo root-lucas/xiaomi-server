@@ -1,4 +1,4 @@
-// 请求体配置
+﻿// 请求体配置
 const koaBodyConfig = {
     multipart: true, // 支持文件上传
     parsedMethods: ['POST', 'PUT', 'PATCH', 'GET', 'HEAD', 'DELETE'],
@@ -13,7 +13,7 @@ const DBConfig = {
     host: 'localhost',
     user: 'root', // 登陆账号
     password: 'admin', // 登陆密码
-    database: 'storeDB',
+    database: 'storedb',
 }
 
 module.exports = {
