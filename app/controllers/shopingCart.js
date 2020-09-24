@@ -7,7 +7,6 @@ const {
 } = require('../models/shoppingCart')
 
 const { M_GetProductById } = require('../models/product')
-const checkLogin = require('../middlewares/checkLogin')
 
 let methods = {
     // 生成购物车详细信息
@@ -38,10 +37,7 @@ class CartCtl {
     // 获取购物车信息
     async getShoppingCart(ctx) {
         let { user_id } = ctx.request.body
-        // 校验用户是否登录
-        if (!checkLogin(ctx, user_id)) {
-            return
-        }
+
         // 获取购物车信息
         const shoppingCart = await M_GetShoppingCart(user_id)
         // 生成购物车详细信息
@@ -55,10 +51,6 @@ class CartCtl {
     // 插入购物车信息
     async addShoppingCart(ctx) {
         let { user_id, product_id } = ctx.request.body
-        // 校验用户是否登录
-        if (!checkLogin(ctx, user_id)) {
-            return
-        }
 
         let tempShoppingCart = await M_FindShoppingCart(user_id, product_id)
         //判断该用户的购物车是否存在该商品
@@ -124,10 +116,6 @@ class CartCtl {
     // 删除购物车信息
     async deleteShoppingCart(ctx) {
         let { user_id, product_id } = ctx.request.body
-        // 校验用户是否登录
-        if (!checkLogin(ctx, user_id)) {
-            return
-        }
 
         // 判断该用户的购物车是否存在该商品
         let tempShoppingCart = await M_FindShoppingCart(user_id, product_id)
@@ -159,10 +147,7 @@ class CartCtl {
     // 更新购物车商品数量
     async updateShoppingCart(ctx) {
         let { user_id, product_id, num } = ctx.request.body
-        // 校验用户是否登录
-        if (!checkLogin(ctx, user_id)) {
-            return
-        }
+
         // 判断数量是否小于1
         if (num < 1) {
             ctx.body = {

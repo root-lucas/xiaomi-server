@@ -1,15 +1,9 @@
 const { M_UserRegister, M_UserLogin, M_HasUserName } = require('../models/user')
-const { checkUserInfo, checkUserName } = require('../middlewares/checkUserInfo')
 
 class UsersCtl {
     // 注册用户
     async register(ctx) {
         let { userName, password } = ctx.request.body
-
-        // 校验用户信息是否符合规则
-        if (!checkUserInfo(ctx, userName, password)) {
-            return
-        }
 
         // 连接数据库根据用户名查询用户信息
         // 先判断该用户是否存在
@@ -47,11 +41,7 @@ class UsersCtl {
     // 登陆用户
     async login(ctx) {
         let { userName, password } = ctx.request.body
-        console.log('this', this)
-        // 校验用户信息是否符合规则
-        if (!checkUserInfo(ctx, userName, password)) {
-            return
-        }
+
         // 连接数据库根据用户名和密码查询用户信息
         let user = await M_UserLogin(userName, password)
         // 结果集长度为0则代表没有该用户
@@ -95,10 +85,6 @@ class UsersCtl {
     async findUserName(ctx) {
         let { userName } = ctx.request.body
 
-        // 校验用户名是否符合规则
-        if (!checkUserName(ctx, userName)) {
-            return
-        }
         // 连接数据库根据用户名查询用户信息
         let user = await M_HasUserName(userName)
         // 结果集长度为0则代表不存在该用户,可以注册

@@ -1,16 +1,11 @@
 const { M_GetOrder, M_GetOrderGroup, M_AddOrder, M_DeleteOrder, M_FindOrder } = require('../models/order')
 const { M_GetProductById } = require('../models/product')
 const { M_DeleteShoppingCart } = require('../models/shoppingCart')
-const checkLogin = require('../middlewares/checkLogin')
 
 class OrderCtl {
     // 获取用户的所有订单信息
     async getOrder(ctx) {
         let { user_id } = ctx.request.body
-        // 校验用户是否登录
-        if (!checkLogin(ctx, user_id)) {
-            return
-        }
 
         // 获取所有的订单id
         const ordersGroup = await M_GetOrderGroup(user_id)
@@ -57,10 +52,6 @@ class OrderCtl {
     // 添加用户订单信息
     async addOrder(ctx) {
         let { user_id, products } = ctx.request.body
-        // 校验用户是否登录
-        if (!checkLogin(ctx, user_id)) {
-            return
-        }
 
         // 获取当前时间戳
         const timeTemp = new Date().getTime()
@@ -119,10 +110,7 @@ class OrderCtl {
     // 删除订单
     async deleteOrder(ctx) {
         let { user_id, order_id } = ctx.request.body
-        // 校验用户是否登录
-        if (!checkLogin(ctx, user_id)) {
-            return
-        }
+
         // 判断该用户的订单列表是否存在该订单
         let tempOrder = await M_FindOrder(user_id, order_id)
 
