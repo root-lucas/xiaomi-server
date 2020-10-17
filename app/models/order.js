@@ -3,7 +3,7 @@ const db = require('./db.js')
 class OrderMtl {
     // 连接数据库获取所有的订单id
     async M_GetOrderGroup(user_id) {
-        let sql = 'select order_id from orders where user_id = ? group by order_id'
+        let sql = 'select order_id from orders where user_id = ? group by order_id  order by order_id desc'
         return await db.query(sql, user_id)
     }
 
