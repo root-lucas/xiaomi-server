@@ -6,7 +6,9 @@
 
 ## 运行项目
 
-> Tip：运行项目前需开启本地的 mysql、redis 服务并配置`/app/config/config.js`的 mysql 登陆账号密码： 即可。
+> Tip1：新建MySQL数据库名为`storedb`，后运行上述准备的`storedb.sql`文件将数据导入数据库。
+>
+> Tip2：运行项目前需开启本地的 mysql、redis 服务并配置`/app/config/config.js`的 mysql 登陆账号密码： 即可。
 
 ```js
 1. Clone project
