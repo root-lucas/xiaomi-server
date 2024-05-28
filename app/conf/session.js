@@ -12,7 +12,10 @@ const SESSION_CONF = {
     },
     // 配置 redis, 需开启本地的 redis 服务器
     store: redisStore({
-        all: '127.0.0.1:6379',
+        // all: '127.0.0.1:6379',
+        host:'127.0.0.1',
+        port:6379,
+        password:'12345'
     }),
 }
 
